@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <title>Pushup Counter</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
 <style>
 * {
@@ -16,42 +17,37 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: clip;              /* Prevent phantom scrollbars */
+    overflow: clip;
     background: #000;
 }
 
-/* Fullscreen container with safe-area handling */
+/* Dynamic viewport–aware container */
 .iframe-container {
     position: fixed;
-    top: env(safe-area-inset-top);
+    top: 0;
     left: 0;
-    right: 0;
-    bottom: env(safe-area-inset-bottom);
+    width: 100vw;
+    height: 100dvh; /* CRITICAL: dynamic viewport */
     overflow: clip;
 }
 
+/* Iframe corrected for mobile tap zone */
 iframe {
     width: 100vw;
-    height: calc(100vh - env(safe-area-inset-bottom));
+    height: calc(100dvh - 16px); /* lift content UP */
     border: none;
     display: block;
 
-    /* Mobile stability fixes */
     transform: translateZ(0);
     will-change: transform;
 
     -webkit-overflow-scrolling: touch;
 }
 
-/* Mobile-only adjustment: lift iframe slightly up */
+/* Mobile-only correction */
 @media (max-width: 768px) {
-    .iframe-container {
-        top: 0;
-        bottom: 12px;   /* lifts content up so bottom is clickable */
-    }
-
     iframe {
-        height: calc(100vh - 12px);
+        height: calc(100dvh - 24px); /* ensures bottom cards are tappable */
     }
 }
 </style>
