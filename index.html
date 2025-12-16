@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Pushup Counter</title>
 
-    <!-- Mobile-friendly viewport (allows zoom & gestures) -->
+    <!-- Mobile viewport: allow zoom, gestures, and natural refresh -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
     <style>
@@ -18,31 +18,35 @@
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Prevent outer scrollbar */
+            overflow: hidden; /* No outer scrollbar */
             background: #000;
         }
 
-        /* Wrapper */
+        /* Fullscreen wrapper */
         .iframe-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden; /* Remove right-side scrollbar */
+            position: absolute;
+            inset: 0;
+            overflow: hidden; /* Prevent right-side scrollbar */
         }
 
         iframe {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             border: none;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll + animations on iOS */
+            display: block;
+            overflow-y: auto; /* Enable natural scrolling */
+            -webkit-overflow-scrolling: touch; /* iOS momentum scroll + animations */
         }
 
-        /* Hide scrollbars visually (but keep scrolling) */
+        /* Hide scrollbar visually but keep scroll + pull-to-refresh */
+        iframe {
+            scrollbar-width: none; /* Firefox */
+        }
+
         iframe::-webkit-scrollbar {
-            display: none;
+            width: 0;
+            height: 0;
+            display: none; /* Chrome / Android */
         }
     </style>
 </head>
@@ -52,7 +56,6 @@
     <iframe 
         src="https://pushup-elite.lovable.app"
         allow="camera; microphone; fullscreen; autoplay"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-presentation"
         loading="eager">
     </iframe>
 </div>
